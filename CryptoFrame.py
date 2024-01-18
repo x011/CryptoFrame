@@ -6,7 +6,6 @@ from argparse import ArgumentParser
 from argparse import RawDescriptionHelpFormatter
 import getpass
 import os
-from io import BytesIO
 import zlib
 from base64 import b64encode, b64decode
 from Crypto.PublicKey import RSA
