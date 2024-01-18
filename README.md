@@ -29,7 +29,7 @@ The tool offers two lossless codecs for output videos:
 
 Ensure Python 3.x is installed on your system.
 
-First, clone the CryptoFrame repository to your local machine using the following `git` command:
+Clone the CryptoFrame repository to your local machine and install the retirements:
 
 ```
 git clone https://github.com/x011/CryptoFrame.git
