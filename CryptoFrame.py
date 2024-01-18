@@ -51,7 +51,7 @@ This command hides the contents of message.txt in the input.mp4 video, outputs t
 
 Unhide Action:
 
-python CryptoFrame.py unhide --input output.mkv --private_key path_to_private_key.pem --passphrase
+python CryptoFrame.py unhide --input output.mkv --private_key path_to_private_key.pem --passphrase "YourPassphrase"
 
 This command attempts to reveal a hidden message from output.mkv using the private key at path_to_private_key.pem. You will be prompted to enter the passphrase for the private key if it is not provided on the command line.
 
