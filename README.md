@@ -1,4 +1,4 @@
-# Crypto Frame
+# CryptoFrame
 
 ## Description
 
@@ -15,50 +15,80 @@ The tool offers two lossless codecs for output videos:
 
 ### Hiding a String Message:
 
-```bash
-python CryptoFrame.py hide --input input.mp4 --output output.avi --message "Secret Message" --codec FFV1 --public_key public_key.pem
-```
+`python CryptoFrame.py hide input.mp4 --output output.mkv --message "Privacy is a Fundamental Right" --codec FFV1 --public_key public_key.pem`
 
 ### Hiding a Message from a Text File:
 
-```bash
-python CryptoFrame.py hide --input input.mp4 --output output.mkv --message message.txt --codec HFYU --public_key public_key.pem
-```
+`python CryptoFrame.py hide input.mp4 --output output.mkv --message message.txt --codec HFYU --public_key public_key.pem`
 
 ### Unhiding a Message:
 
-```bash
-python CryptoFrame.py unhide --input output.avi --private_key private_key.pem --passphrase "YourPassphrase"
+`python CryptoFrame.py unhide output.mkv --private_key private_key.pem --passphrase "YourPassphrase"`
+
+## Installation and Requirements
+
+Ensure Python 3.x is installed on your system.
+
+First, clone the CryptoFrame repository to your local machine using the following `git` command:
+
+```
+git clone https://github.com/x011/CryptoFrame.git
+cd CryptoFrame
+pip install -r requirements.txt
 ```
 
-## Requirements and Installation
+## Installing OpenSSL
 
-Ensure Python 3.x is installed on your system. Install all required dependencies with:
+Before generating RSA key pairs, ensure that you have OpenSSL installed on your system. Follow the instructions below based on your operating system:
 
-`pip install -r requirements.txt`
+
+### Windows
+
+1. Download the latest OpenSSL installer from [this page](https://slproweb.com/products/Win32OpenSSL.html).
+2. Run the installer and follow the on-screen instructions to complete the installation.
+
+
+### macOS
+
+OpenSSL should already be installed on macOS. However, if you need to install or upgrade, you can use [Homebrew](https://brew.sh/):
+
+`brew install openssl`
+
+
+### Linux (Ubuntu/Debian)
+
+```
+sudo apt-get update
+sudo apt-get install openssl
+```
 
 ## Generating RSA Key Pair
 
 To generate a 4096-bit RSA key pair:
 
-1.  **Private Key:**
+1. **Private Key:**
     
--  `openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:4096 -pass pass:YourPassPhraseHere`
+`openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:4096 -pass pass:YourPassPhraseHere`
     
-2   **Public Key:**
+2. **Public Key:**
     
- - `openssl rsa -pubout -in private_key.pem -out public_key.pem -passin pass:YourPassPhraseHere `
+`openssl rsa -pubout -in private_key.pem -out public_key.pem -passin pass:YourPassPhraseHere `
    
-
-Be sure to keep your private key secure and do not share it.
-
-## Understanding LSB (Least Significant Bit) Steganography
-
-LSB steganography involves modifying the least significant bits of pixel values in video frames to embed hidden information. This method relies on the imperceptibility of the changes to the naked eye and necessitates the use of lossless codecs to avoid corruption of the data by compression.
+Be sure to choose a strong password and keep your private key secure.
 
 ## Output File Size Note
 
-The use of lossless codecs for steganography results in larger output file sizes. While lossy compression may reduce the size, it compromises the integrity of the steganographic data due to alterations in pixel values, making lossless codecs a necessary choice for CryptoFrame.
+The use of lossless codecs for steganography results in larger output file sizes. While lossy compression (x264, x265, etc.) may reduce the size, it compromises the integrity of the steganographic data due to alterations in pixel values, making lossless codecs a necessary choice for CryptoFrame.
+
+## Understanding LSB (Least Significant Bit) Steganography
+
+LSB steganography is a digital hiding technique where the least significant bit—essentially the last bit in a byte of data—of a pixel's color value is altered to encode information. In videos, each frame is composed of a multitude of pixels, each pixel containing color data typically represented by three values (red, green, and blue). By tweaking the LSB of these values, CryptoFrame injects the message directly into the image in a way that is nearly undetectable.
+
+This technique takes advantage of the fact that small changes in the LSB of a pixel's color will not significantly alter the perceived color due to the binary weight it carries being minimal. This tiny difference is not perceivable by human vision, making the alteration an invisible carrier of secret information.
+
+The criticality of using lossless codecs for this method cannot be overstressed. Lossy codecs, which compress data and consequently discard some of it for the sake of reducing file size, can potentially distort or obliterate the steganographically embedded bits. Lossless codecs, on the other hand, preserve every bit of information, ensuring that the embedded messages are retained intact throughout the process of saving and viewing the video.
+
+CryptoFrame harnesses LSB steganography in combination with robust encryption to offer a formidable tool in secure and covert communication.
 
 ## Disclaimer
 
