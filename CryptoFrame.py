@@ -250,7 +250,7 @@ def main():
         # Check if message is a file path, and read the content if it is a file
         if os.path.isfile(message):
             with open(message, 'r', encoding='utf-8') as file:
-                message = file.read()
+                message = file.read().encode('utf-8')
         else:
             message = message.encode('utf-8')
 
